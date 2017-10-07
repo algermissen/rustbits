@@ -64,16 +64,16 @@ impl<T: Incrementable> Stream for SeqStream<T> {
 }
 
 
-
 fn main() {
     println!("Streaming sequence numbers");
-    let seq = SeqStream::new(0);
+    let seq1 = SeqStream::new(0);
+    let seq2 = SeqStream::new(0);
 
-    let x = seq.for_each(|i| {
-        println!("Seq: {}", i);
+    let s = seq1.zip(seq2).for_each(|(a, b)| {
+        println!("Seq: {},{}", a, b);
         Ok(())
     });
 
     let mut core = Core::new().unwrap();
-    core.run(x).unwrap();
+    core.run(s).unwrap();
 }
